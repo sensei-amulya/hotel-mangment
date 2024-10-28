@@ -1,7 +1,8 @@
+require('dotenv').config()
 const express= require('express')
-const app =express()
-const port = 8000;
-
-app.listen(port,()=>{
-console.log(`server running on port${port}`)
+const connctdb=require('./config/database')
+const app =express();
+connctdb();
+app.listen(process.env.Port,()=>{
+console.log(`server running on port:${process.env.Port}`)
 })
