@@ -23,9 +23,9 @@ const forgetPasswordHandler = async (req, res) => {
     }
     else {
         const resetToken = uuidv4();
-        user.resetToken = resetToken;
+        user.resetPasswordToken = resetToken;
         console.log(resetToken)
-        user.resetTokenExpires = Date.now() + 3600000;
+        user.resetPassTokenExpiry = Date.now() + 3600000;
         await user.save()
 
         const resetUrl = `http://localhost:3000/password/reset/${resetToken}`
@@ -55,8 +55,8 @@ const resetPasswordHandler = async (req,res) => {
     const {resetToken} = req.params;
     const {new_Password} = req.body;
     const user = await userModel.findOne({
-        resetToken : resetToken,
-        resetTokenExpires : { $gt: Date.now() }
+        resetPasswordToken : resetToken,
+        resetPassTokenExpiry : { $gt: Date.now() }
     })
 
     if(!user){

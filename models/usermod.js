@@ -23,8 +23,14 @@ const userSchema = new mogoose.Schema({
         type:String,
         enum:['Customer','Manager','Admin'],
         default:'Customer'
+    },
+    resetPasswordToken:{
+        type:String,default:null
+    },
+    resetPassTokenExpiry:{
+        type:Date,
+        default:null,
     }
-
 })
 
 

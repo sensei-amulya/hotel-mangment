@@ -8,7 +8,7 @@ const GoogleStrategy=require('passport-google-oauth20').Strategy
 
 
 
-app.use(session({
+/*app.use(session({
     secret: process.env.secret,
     resave: false,
     saveUninitialized: true,
@@ -18,14 +18,14 @@ app.use(session({
 
 app.use(passport.initialize())
 app.use(passport.session())
-
+*/
 
 
 passport.use(
     new GoogleStrategy({
-        clientID: process.env.Client_ID,
-        clientSecret: process.env.Client_secret,
-        callbackURL: "http://localhost:3030/auth/google/callback",
+        clientID: process.env.ClientID,
+        clientSecret: process.env.clientSEcret,
+        callbackURL: "http://localhost:8000/auth/google/callback",
     },
         (accessToken, refreshToken, profile, done) => {
             return done(null, profile)
@@ -39,23 +39,30 @@ passport.deserializeUser((user, done) => done(null, user))
 
 
 
-app.get("/", (req, res) => {
+/*router.get("/", (req, res) => {
     res.send("<a href='/auth/google'> Login with google </a>")
-  })
+  })*/
   
 
-app.get("/auth/google/",
+router.get("/",
     passport.authenticate("google", { scope: ["profile", "email"] })
 )
 
 
-app.get("/auth/google/callback",
+router.get("/callback",
     passport.authenticate("google", { failureRedirect: "/" }),
     (req, res) => {
+        const name = req.user.displayName;
+        const token =jwt.sign({name},process.env.secret)
+        console.log(token)
         res.redirect("/profile")
     }
 )
 
-app.get("/profile", (req, res) => {
+/*router.get("/profile", (req, res) => {
     res.send(`<h1>Welcome ${req.user.displayName} </h1>`)
-})
+})*/
+
+
+
+module.exports = router;

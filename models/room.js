@@ -1,4 +1,3 @@
-const { default: mongoose } = require('mongoose')
 const mongoose = require('mongoose')
 
 const roomSchema = new mongoose.Schema({
@@ -20,7 +19,7 @@ const roomSchema = new mongoose.Schema({
     },
     Availability:{
         type:String,
-        enum:['Available',Booked],
+        enum:['Available','Booked'],
         default:'Availabe'
     },
     Booking:{
