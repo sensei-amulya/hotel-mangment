@@ -7,6 +7,7 @@ const SignUp=require('./routes/signUp')
 const login=require('./routes/login')
 const email=require('./routes/email')
 const room=require('./routes/rooms')
+const booking=require('./routes/booking')
 const LoginGoogle=require('./routes/logingoogle')
 const connctdb=require('./config/database')
 const app =express();
@@ -31,7 +32,7 @@ app.get("/", (req, res) => {
 })
 
 
-
+app.use('/',booking)
 app.use('/room',room)
 app.use('/signup',SignUp)
 app.use('/login',login)

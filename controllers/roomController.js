@@ -13,18 +13,28 @@ const RoomList = async (req,res) => {
 
 module.exports= {RoomList}*/
 
+const { ApiResponse } = require("../middelwares/apiResponse")
 
 
 const Room = require('../models/room');
 
 exports.getAllRooms = async (req, res) => {
-  const rooms = await Room.find();
-  res.json(rooms);
+  if(req.user){const rooms = await Room.find();
+    res.json(new ApiResponse(200, rooms))
+    ;
+}else{
+    res.json(new ApiResponse(400, "First login then View the List of rooms!!"))
+}
 };
 
 exports.createRoom = async (req, res) => {
-  const { Hotel_Id,room_Num,room_type, Price, Availability } = req.body;
+  if(req.user){const { Hotel_Id,room_Num,room_type, Price, Availability } = req.body;
   const room = new Room({ Hotel_Id,room_Num,room_type, Price, Availability });
   await room.save();
-  res.status(201).json(room);
+  res.json(new ApiResponse(201, room))
+
+}else{
+    res.json(new ApiResponse(400, "First login then Enter the rooms details!!"))
+
+}
 };
